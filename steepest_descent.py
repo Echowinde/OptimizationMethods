@@ -2,14 +2,15 @@ from functions import *
 from utils import draw_contour
 
 
-def goldstein(func, grad, x_k, d, max_alpha=1, rho=1e-4, t=1.5):
+def goldstein(func, grad, x_k, d, max_alpha=1, rho=1e-4, t=2):
     phi_0 = func(x_k)
     dphi_0 = np.dot(grad(x_k), d)
     a = 0
     b = max_alpha
     k = 0
     alpha = np.random.rand()*max_alpha
-    while True:
+    max_iter = 1000
+    while k < max_iter:
         phi = func(x_k + d*alpha)
         if phi_0 + rho*alpha*dphi_0 >= phi:
             if phi_0 + (1-rho)*alpha*dphi_0 <= phi:
@@ -34,7 +35,9 @@ def wolfe(func, grad, x_k, d, max_alpha=1, rho=1e-4, sigma=0.1):
     dphi_1 = np.dot(grad(x_k), d)
     alpha = np.random.rand() * alpha_2
 
-    while True:
+    max_iter = 100
+    epoch = 0
+    while epoch < max_iter:
         phi = func(x_k + d * alpha)
         if (phi - phi_1) <= rho * alpha * dphi_1:
             dphi = np.dot(grad(x_k + d * alpha), d)
@@ -50,6 +53,7 @@ def wolfe(func, grad, x_k, d, max_alpha=1, rho=1e-4, sigma=0.1):
             alpha_bar = alpha_1 + 0.5 * (alpha - alpha_1) / (1 + (phi_1 - phi) / (alpha - alpha_1) / dphi_1)
             alpha_2 = alpha
             alpha = alpha_bar
+        epoch += 1
 
     return alpha
 
@@ -91,3 +95,4 @@ if __name__ == "__main__":
     x_0 = np.array([-1.2, 1])
     result = steepest_descent(x_0, 'rosenbrock', 'goldstein', verbose=100)
     draw_contour(rosenbrock, result)
+
