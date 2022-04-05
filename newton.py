@@ -2,12 +2,12 @@ from functions import *
 from utils import draw_contour
 
 
-def wolfe(func, grad, x_k, d, max_alpha=1, rho=0.1, sigma=0.7):
+def wolfe(func, grad, x_k, d, max_alpha=np.inf, rho=0.1, sigma=0.7):
     alpha_1 = 0
     alpha_2 = max_alpha
     phi_1 = func(x_k)
     dphi_1 = np.dot(grad(x_k), d)
-    alpha = np.random.rand() * alpha_2
+    alpha = 1
 
     max_iter = 100
     epoch = 0
@@ -50,17 +50,17 @@ def newton(x, function, method='pure', epsilon=1e-5, verbose=10):
         k = -grad(x)
         p = -np.dot(np.linalg.inv(hessian(x)), -k)
         if method == 'line':
-            alpha = wolfe(func, grad, x, k)
+            alpha = wolfe(func, grad, x, p)
         elif method == 'GP':
             angle = np.dot(p, k)/(np.linalg.norm(p) * np.linalg.norm(k))
             if angle < 0.5:
                 p = k
-            alpha = wolfe(func, grad, x, k)
+            alpha = wolfe(func, grad, x, p)
         elif method == 'goldfeld':
             tau = 0.0
             muk = pow(np.linalg.norm(k), 1+tau)
             p = -np.dot(np.linalg.inv(hessian(x) + muk*np.eye(len(hessian(x)))), -k)
-            alpha = wolfe(func, grad, x, k)
+            alpha = wolfe(func, grad, x, p)
         x = x + alpha*p
         record.append(x)
         if (epoch+1) % verbose == 0:
@@ -75,6 +75,6 @@ def newton(x, function, method='pure', epsilon=1e-5, verbose=10):
 
 
 if __name__ == "__main__":
-    x_0 = np.array([3.5, 0.2])
-    result = newton(x_0, 'beale', method='pure', verbose=1)
+    x_0 = np.array([3, 0.2])
+    result = newton(x_0, 'beale', method='line', verbose=1)
     draw_contour(beale, result)
