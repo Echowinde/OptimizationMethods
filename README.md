@@ -1,6 +1,6 @@
 # OptimizationMethods
-Python based practical optimization methods  
-徐翔老师优化算法课的作业代码
+Python based practical optimization methods (only use Numpy)  
+徐翔老师优化算法课的作业代码，算法只使用Numpy库
 
 ## Available methods
 - Steepest Descent Method  
@@ -10,3 +10,7 @@ Python based practical optimization methods
   1. Line Search Newton
   2. Modified Newton (Goldstein-Price)
   3. Modified Newton (Goldfeld)
+- Conjuagate Gradient Method
+  1. Fletcher-Reeves formula (FP)
+  2. Polak-Ribiere-Polyak formula (PRP)
+  3. Dai-Yuan formula (DY)
