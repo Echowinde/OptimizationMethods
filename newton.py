@@ -1,5 +1,5 @@
 from functions import *
-from utils import draw_contour
+from utils import *
 
 
 def wolfe(func, grad, x_k, d, max_alpha=np.inf, rho=0.1, sigma=0.7):
@@ -78,3 +78,4 @@ if __name__ == "__main__":
     x_0 = np.array([3, 0.2])
     result = newton(x_0, 'beale', method='line', verbose=1)
     draw_contour(beale, result)
+    convergence_rate(beale, result)

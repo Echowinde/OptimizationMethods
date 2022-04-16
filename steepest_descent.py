@@ -1,5 +1,5 @@
 from functions import *
-from utils import draw_contour
+from utils import *
 
 
 def goldstein(func, grad, x_k, d, max_alpha=1, rho=1e-4, t=2):
@@ -95,4 +95,4 @@ if __name__ == "__main__":
     x_0 = np.array([-1.2, 1])
     result = steepest_descent(x_0, 'rosenbrock', 'goldstein', verbose=100)
     draw_contour(rosenbrock, result)
-
+    convergence_rate(rosenbrock, result)
