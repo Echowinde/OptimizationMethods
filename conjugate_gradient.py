@@ -6,13 +6,13 @@ def conjugate_gradient(x, method='FR', epsilon=1e-6, verbose=1):
     record = [x]
     epoch = 0
     max_iter = 5000
-    rank = len(x)
-    g_0 = quadratic_grad(x, rank)
+    dim = len(x)
+    g_0 = quadratic_grad(x, dim)
     d_0 = -g_0
     while epoch < max_iter:
-        alpha = -np.dot(d_0, g_0) / (np.dot(np.dot(d_0, hilbert(rank)), d_0))
+        alpha = -np.dot(d_0, g_0) / (np.dot(np.dot(d_0, hilbert(dim)), d_0))
         x = x + alpha * d_0
-        g = quadratic_grad(x, rank)
+        g = quadratic_grad(x, dim)
         if method == 'FR':
             beta = np.dot(g, g) / np.dot(g_0, g_0)   # FR
         elif method == 'PRP':
@@ -25,10 +25,10 @@ def conjugate_gradient(x, method='FR', epsilon=1e-6, verbose=1):
 
         if (epoch + 1) % verbose == 0:
             print("---Iteration: {}---".format(epoch + 1))
-            print("x = {}, alpha = {:.3f}, beta = {:.3f}, f(x) = {:.5f}".format(x, alpha, beta, quadratic(x, rank)))
+            print("x = {}, alpha = {:.3f}, beta = {:.3f}, f(x) = {:.5f}".format(x, alpha, beta, quadratic(x, dim)))
         if np.linalg.norm(g) < epsilon:
             print("---Iteration: {} Ends---".format(epoch + 1))
-            print("x = {}, alpha = {:.3f}, beta = {:.3f}, f(x) = {:.5f}".format(x, alpha, beta, quadratic(x, rank)))
+            print("x = {}, alpha = {:.3f}, beta = {:.3f}, f(x) = {:.5f}".format(x, alpha, beta, quadratic(x, dim)))
             break
 
         g_0 = g

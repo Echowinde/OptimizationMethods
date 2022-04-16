@@ -41,21 +41,21 @@ def beale_hessian(x):
     return np.array([[grad_1, grad_2], [grad_3, grad_4]])
 
 
-def hilbert(rank):
-    matrix = np.zeros((rank,rank))
-    for i in range(rank):
-        for j in range(rank):
+def hilbert(dim):
+    matrix = np.zeros((dim,dim))
+    for i in range(dim):
+        for j in range(dim):
             matrix[i][j] = 1/((i+1)+(j+1)-1)
     return matrix
 
 
-def quadratic(x, rank=8):
-    A = hilbert(rank)
-    b = np.ones(rank)
+def quadratic(x, dim=8):
+    A = hilbert(dim)
+    b = np.ones(dim)
     return 0.5*np.dot(np.dot(x, A), x) - np.dot(b, x)
 
 
-def quadratic_grad(x, rank=8):
-    A = hilbert(rank)
-    b = np.ones(rank)
+def quadratic_grad(x, dim=8):
+    A = hilbert(dim)
+    b = np.ones(dim)
     return np.dot(A, x) - b
