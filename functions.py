@@ -39,3 +39,23 @@ def beale_hessian(x):
     grad_3 = 2*(t_1+x[0]*x[1]-x[0]) + 4*x[1]*(t_2+x[0]*x[1]**2-x[0]) + 6*(x[1]**2)*(t_3+x[0]*pow(x[1],3)-x[0]) # x2x1
     grad_4 = 2*x[0]**2 + 4*x[0]*t_2 + 8*(x[0]**2)*(x[1]**2) + 12*x[0]*x[1]*t_3 + 18*(x[0]**2)*pow(x[1],4) # x2x2
     return np.array([[grad_1, grad_2], [grad_3, grad_4]])
+
+
+def hilbert(rank):
+    matrix = np.zeros((rank,rank))
+    for i in range(rank):
+        for j in range(rank):
+            matrix[i][j] = 1/((i+1)+(j+1)-1)
+    return matrix
+
+
+def quadratic(x, rank=8):
+    A = hilbert(rank)
+    b = np.ones(rank)
+    return 0.5*np.dot(np.dot(x, A), x) - np.dot(b, x)
+
+
+def quadratic_grad(x, rank=8):
+    A = hilbert(rank)
+    b = np.ones(rank)
+    return np.dot(A, x) - b
