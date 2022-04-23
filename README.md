@@ -16,3 +16,5 @@ Python based practical optimization methods (only use Numpy)
   3. Dai-Yuan formula (DY)
 - Preconditioned Conjugate Gradient Method
   1. Jacobi preconditioning
+- Quasi-Newton Method
+  1. BFGS
