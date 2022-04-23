@@ -49,6 +49,14 @@ def hilbert(dim):
     return matrix
 
 
+def diag(origin):
+    dim = len(origin)
+    matrix = np.zeros((dim,dim))
+    for i in range(dim):
+        matrix[i][i] = origin[i][i]
+    return matrix
+
+
 def quadratic(x, dim=8):
     A = hilbert(dim)
     b = np.ones(dim)
