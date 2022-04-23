@@ -14,3 +14,5 @@ Python based practical optimization methods (only use Numpy)
   1. Fletcher-Reeves formula (FP)
   2. Polak-Ribiere-Polyak formula (PRP)
   3. Dai-Yuan formula (DY)
+- Preconditioned Conjugate Gradient Method
+  1. Jacobi preconditioning
