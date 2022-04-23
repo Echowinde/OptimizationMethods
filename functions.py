@@ -2,16 +2,31 @@ import numpy as np
 
 
 def rosenbrock(x):
-    return 100*(x[1]-x[0]**2)**2 + (1-x[0])**2
+    x = np.asarray(x)
+    return sum(100 * (x[1:] - x[:-1] ** 2) ** 2) + sum((np.ones(len(x) - 1) - x[:-1]) ** 2)
 
 
 def rosen_grad(x):
-    return np.array([400*pow(x[0],3) - 400*x[0]*x[1] + 2*(x[0]-1), -200*(x[0]**2-x[1])])
+    x = np.asarray(x)
+    grad_1 = 400 * x[0] * (x[0] ** 2 - x[1]) + 2 * (x[0] - 1)
+    grad_n = 200 * (x[-1] - x[-2] ** 2)
+    if len(x) > 2:
+        grad_mid = 200 * (x[1:-1] - x[:-2] ** 2) + 400 * x[1:-1] * (x[1:-1] ** 2 - x[2:]) + 2 * (x[1:-1] - 1)
+    else:
+        return np.array([grad_1, grad_n])
+    return np.concatenate([np.array([grad_1]), grad_mid, np.array([grad_n])])
 
 
 def rosen_hessian(x):
     # [[x1x1, x1x2], [x2x1, x2x2]]
-    return np.array([[-400*x[1]+1200*x[0]**2+2, -400*x[0]], [-400*x[0], 200]])
+    x = np.asarray(x)
+    hess = np.diag(-400 * x[:-1], 1) - np.diag(400 * x[:-1], -1)
+    diagonal = np.zeros_like(x)
+    diagonal[0] = 1200 * x[0] ** 2 - 400 * x[1] + 2
+    diagonal[-1] = 200
+    diagonal[1:-1] = 202 + 1200 * x[1:-1] ** 2 - 400 * x[2:]
+    hess = hess + np.diag(diagonal)
+    return hess
 
 
 def beale(x):
@@ -67,3 +82,12 @@ def quadratic_grad(x, dim=8):
     A = hilbert(dim)
     b = np.ones(dim)
     return np.dot(A, x) - b
+
+
+def powell(x):
+    return (x[0]+10*x[1])**2 + 5*(x[2]-x[3])**2 + (x[1]-2*x[2])**4 + 10*(x[0]-x[3])**4
+
+
+def powell_grad(x):
+    return np.array([2*(x[0]+10*x[1])+40*(x[0]-x[3])**3, 20*(x[0]+10*x[1])+4*(x[1]-2*x[2])**3,
+                     10*(x[2]-x[3])-8*(x[1]-2*x[2])**3, -10*(x[2]-x[3])-40*(x[0]-x[3])**3])
