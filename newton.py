@@ -109,9 +109,11 @@ def quasi_newton(x, func, grad, method='BFGS', epsilon=1e-5, verbose=10):
             print("---Iteration: {} Ends---".format(epoch + 1))
             print("x = {}, alpha = {:.3f}, f(x) = {:.5f}".format(x, alpha, func(x)))
             break
+
         g_0 = g
         H_0 = H
         epoch += 1
+
     return np.array(record)
 
 
