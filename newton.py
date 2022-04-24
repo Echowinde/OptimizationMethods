@@ -77,7 +77,7 @@ def newton(x, function, method='pure', epsilon=1e-5, verbose=10):
 def quasi_newton(x, func, grad, method='BFGS', epsilon=1e-5, verbose=10):
     record = [x]
     epoch = 0
-    max_iter = 100
+    max_iter = 1000
 
     dim = len(x)
     H_0 = np.eye(dim)
@@ -91,10 +91,15 @@ def quasi_newton(x, func, grad, method='BFGS', epsilon=1e-5, verbose=10):
         s = alpha * d
         y = g - g_0
 
-        # BFGS
-        H = H_0 + (1 + np.dot(y, np.dot(H_0, y))/np.dot(s, y)) * np.dot(s.reshape(-1, 1), s.reshape(1, -1))/np.dot(s, y) \
-            - (np.dot(np.dot(s.reshape(-1, 1), y.reshape(1, -1)), H_0)
-            + np.dot(np.dot(H_0, y.reshape(-1, 1)), s.reshape(1, -1))) / np.dot(s, y)
+        if method == 'BFGS':
+            H = H_0 + (1 + np.dot(y, np.dot(H_0, y))/np.dot(s, y)) * np.dot(s.reshape(-1, 1), s.reshape(1, -1))/np.dot(s, y) \
+                - (np.dot(np.dot(s.reshape(-1, 1), y.reshape(1, -1)), H_0)
+                + np.dot(np.dot(H_0, y.reshape(-1, 1)), s.reshape(1, -1))) / np.dot(s, y)
+        elif method == 'DFP':
+            H = H_0 + np.dot(s.reshape(-1, 1), s.reshape(1, -1)) / np.dot(s, y) \
+                - np.dot(np.dot(H_0, y).reshape(-1, 1), np.dot(y, H_0).reshape(1,-1)) / np.dot(y, np.dot(H_0, y))
+        elif method == 'SR1':
+            H = H_0 + np.dot((s - np.dot(H_0, y)).reshape(-1, 1),(s - np.dot(H_0, y)).reshape(1, -1))/np.dot((s - np.dot(H_0, y)), y)
 
         record.append(x)
         if (epoch + 1) % verbose == 0:

@@ -18,3 +18,5 @@ Python based practical optimization methods (only use Numpy)
   1. Jacobi preconditioning
 - Quasi-Newton Method
   1. BFGS
+  2. DFP
+  3. SR1
