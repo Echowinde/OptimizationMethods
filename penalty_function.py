@@ -93,7 +93,6 @@ def penalty_function(x, rho, penalty, tau=1e-5):
         grad_estimate = grad(x_estimate, mu, penalty)
         print("---Iteration: {}---".format(epoch + 1))
         print("x_estimate = {}, f(x) = {:.5f}, mu={}".format(x_estimate, func(x_estimate, 0, None), mu))
-        print(np.linalg.norm(grad_estimate))
         if np.linalg.norm(grad_estimate) < tau:
             return x_estimate
         mu = mu*rho
