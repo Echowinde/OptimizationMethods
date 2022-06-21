@@ -1,4 +1,4 @@
-import numpy
+import numpy as np
 
 
 def func(x, mu, penalty):
@@ -92,7 +92,7 @@ def penalty_function(x, rho, penalty, tau=1e-5):
         x_estimate = steepest_descent(x, func, grad, mu, penalty, epsilon=1e-3)[-1]
         grad_estimate = grad(x_estimate, mu, penalty)
         print("---Iteration: {}---".format(epoch + 1))
-        print("x_estimate = {}, f(x) = {:.5f}, mu={}".format(x_estimate, func(x, 0, None), mu))
+        print("x_estimate = {}, f(x) = {:.5f}, mu={}".format(x_estimate, func(x_estimate, 0, None), mu))
         print(np.linalg.norm(grad_estimate))
         if np.linalg.norm(grad_estimate) < tau:
             return x_estimate
