@@ -27,3 +27,4 @@ Python based practical optimization methods (only use Numpy)
 - Penalty Function Method
   1. Quadratic penalty
   2. Classical $l^1$ penalty
+- Augmented Lagrangian Method
